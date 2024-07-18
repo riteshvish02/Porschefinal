@@ -43,6 +43,8 @@ body
     display: flex;
     justify-content: space-between;
     left: 0;
+    overflow: hidden;
+
     pointer-events: none;
     top: 0;
     z-index: 9999999999999999999999999999999999!important;
@@ -64,7 +66,8 @@ canvas{
     padding-top: 5%;
     text-align: right;
     position: absolute;
-    left: -25%!important;
+    left: 0%!important;
+    transform: translateX(-100%);
     top: 0%!important;
 }
 #animation #infoone h1{
@@ -122,7 +125,7 @@ canvas{
 #animation #infotwo{
     width:60vh ;
     height: 100vh;
-    background-color:black;
+    background-color:rgba(0, 0, 0, 0.229);
     color: #fff;
     transform: translateX(100%);
     padding-left: 2%;
@@ -164,12 +167,15 @@ canvas{
 #nav{
     width: 100%;
     height: 15vh;
+    pointer-events: all;
     background-color:rgba(0, 0, 0, 0.498);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 30vh;
     padding: 0 5vh;
-    position: fixed;
+    position:absolute;
+    z-index: 99999999999999999999999999999999999999999999999999999999999999999999999999999999999!important;
     top: 0;
 }
 #navcenter{
@@ -184,24 +190,133 @@ canvas{
     text-transform: uppercase;
 }
 #navleft{
-    width: 25vh;
+    width: 30vh;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    background: red;
+    /* background: red; */
 }
 #navleft h2{
     color: white;
     font-family: por2;
 }
 #navright{
-    width: 25vh;
+    width: 30vh;
     height: 100%;
     background: red;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
 }
 
-
+#selector{
+    width: 100%;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color:rgba(0, 0, 0, 0.033);
+    position: fixed;
+    top: 15%;
+    left: 0%;
+     cursor: pointer;
+    gap: 3%;
+    z-index: 999999999999999999999999999999999999999999999999999999999!important;
+}
+#selector #color{
+    width: 40vh;
+    height: 7vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3%;
+    pointer-events: all;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.714);
+}
+#selector #color button{
+    border: none;
+    cursor: pointer;
+    border: 1px solid white;
+    pointer-events: all;
+    border-radius: 100%;
+    width: 3.5vh;
+    height: 3.5vh;
+}
+#selector #color button:nth-child(1){
+    background-color:#CCCCCC;
+}
+#selector #color button:nth-child(2){
+    background-color:#FFCC00;
+}
+#selector #color button:nth-child(3){
+    background-color:#CC0033;
+}
+#selector #color button:nth-child(4){
+    background-color:black;
+}
+#selector #color button:nth-child(5){
+    background-color:#A4C4B8;
+}
+#selector #color button:nth-child(6){
+    background-color:#00194B;
+}
+#selector #color button:nth-child(7){
+    background-color:#333333;
+}
+#selector #color button:nth-child(8){
+    background-color:red;
+}
+#selector .div{
+    display: flex;
+    align-items:center;
+    height: 10vh;
+    justify-content: center;
+    width: fit-content;
+    pointer-events: all;
+    cursor: pointer;
+    flex-direction: column;
+  
+}
+#selector .div h2{
+    color: white;
+    font-size: 2vh;
+    font-family: por1;
+    text-transform: capitalize;
+    cursor: pointer;
+}
+#selector .div img{
+    width: 8vh;
+    height: 8vh;
+    cursor: pointer;
+    object-fit: cover;
+    object-position: center;
+}
+#selector #centerdiv{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 50%;
+    gap: 3%;
+ 
+}
+#selector #centerdiv #infodiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 80%;
+    gap: 3%;
+    background: 
+    linear-gradient(to bottom, transparent 0%, rgba(33, 33, 33, 0.292) 50%, transparent 100%), 
+    linear-gradient(to right, transparent 0%, rgba(37, 37, 37, 0.096) 50%, transparent 100%);
+ 
+}
 #animation #infothree{
     width:60vh ;
     height: 100vh;
@@ -246,7 +361,7 @@ canvas{
 #animation #infofour{
     width:60vh ;
     height: 100vh;
-    background-color:black;
+    background-color:rgba(0, 0, 0, 0.259);
     color: #fff;
     padding-left: 2%;
     transform: translateX(100%);
@@ -304,84 +419,8 @@ canvas{
     /* pointer-events: none; */
 }
 
-.point .label
-{
-    position: absolute;
-    top: -20px;
-    left: -20px;
-    width: 40px;
-    z-index: 999999;
-    height: 40px;
-    border-radius: 50%;
-    background: #82828275;
-    color: #ffffff;
-    line-height: 40px;
-    font-weight: 100;
-    font-size: 14px;
-    cursor: pointer;
-    transform: scale(0, 0);
-    transition: transform 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.point .label #child{
-    width: 70%;
-    height: 70%;
-    background-color: #ffffffd5;
-    border-radius: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    font-size: 2.5vh;
-    font-family: por3;
-    font-weight: 600;
-}
-.point .label:hover #child i{
-    transition:all ease 1s;
-}
-.point .label:hover #child i{
-    transform: rotate(132deg)!important;
-}
-#mainn{
-    position: absolute;
-    top: 0;
-    width: 20vh;
-    height: 20vh;
-    z-index: 999999999!important;
-    background: red;
-    left: 50%;
-}
-.point .text
-{
-    position: absolute;
-    /* top: 30px;
-    left: -120px; */
-    width: 200px;
-    padding: 20px;
-    border-radius: 4px;
-    background: #00000077;
-    border: 1px solid #ffffff77;
-    color: #ffffff;
-    line-height: 1.3em;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: 100;
-    font-size: 14px;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-}
 
-.point:hover .text
-{
-    opacity: 1;
-}
 
-.point.visible .label
-{
-    transform: scale(1, 1);
-}
 
 #page1{
     width: 100%;

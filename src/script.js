@@ -32,14 +32,21 @@ function inet(){
 const textureLoader = new THREE.TextureLoader();
 const floorterrain = textureLoader.load('/textures/terrain-normal.jpg');
 const floorrough = textureLoader.load('/textures/terrain-roughness.jpg');
+// const ao  =  textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_ao_4k.png")
+// const b = textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_arm_4k.png")
+// const color = textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_diff_4k.png")
+// const dis =  textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_disp_4k.png")
+// const nor = textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_nor_dx_4k.png")
+// const f = textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_nor_gl_4k.png")
+// const rough = textureLoader.load('/rubber_tiles_4k/textures/rubber_tiles_rough_4k.png')
 const cubetexture = new THREE.CubeTextureLoader();
 const env = cubetexture.load([
-    '/textures/environmentMaps/2/px.jpg',
-    '/textures/environmentMaps/2/nx.jpg',
-    '/textures/environmentMaps/2/py.jpg',
-    '/textures/environmentMaps/2/ny.jpg',
-    '/textures/environmentMaps/2/pz.jpg',
-    '/textures/environmentMaps/2/nz.jpg',
+    '/textures/environmentMaps/1/px.jpg',
+    '/textures/environmentMaps/1/nx.jpg',
+    '/textures/environmentMaps/1/py.jpg',
+    '/textures/environmentMaps/1/ny.jpg',
+    '/textures/environmentMaps/1/pz.jpg',
+    '/textures/environmentMaps/1/nz.jpg',
 ]);
 
 // GLTF and DRACO loading
@@ -98,7 +105,7 @@ directionlight.shadow.camera.bottom = -50;
 directionlight.shadow.camera.near = 0.5;
 directionlight.shadow.camera.far = 500;
 const DirectionalLightHelper = new THREE.DirectionalLightHelper(directionlight,0.2)
-scene.add(DirectionalLightHelper)
+// scene.add(DirectionalLightHelper)
 gui.add(directionlight,'intensity').min(0).max(25).step(0.001).name('lightIntensity')
 gui.add(directionlight.position,'x').min(-50).max(50).step(0.001).name('lightX')
 gui.add(directionlight.position,'y').min(-50).max(50).step(0.001).name('lightY')
@@ -112,7 +119,14 @@ scene.add(ambientLight)
 const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(400, 400),
     new THREE.MeshStandardMaterial({ 
-        color: '#222222',
+        color: '#111',
+        // map:color,
+        // transparent:true,   
+        // aoMap:ao,
+        // displacementMap:dis,
+        // displacementScale:0.1,
+        // normalMap:nor,
+        // roughnessMap:rough
         // aoMap:grassambientOcclusiontexture,
         normalMap:floorterrain,
         roughnessMap:floorrough,
@@ -120,7 +134,11 @@ const floor = new THREE.Mesh(
         metalness: 1, // Higher value gives a metallic look
      })
 )
-floorrough.repeat.set(5,5)
+floor.geometry.setAttribute(
+  'uv2',
+  new THREE.Float32BufferAttribute(floor.geometry.attributes.uv.array,2)
+)
+floorrough.repeat.set(2,2)
 floorterrain.repeat.set(5,5)
 floor.receiveShadow = true; 
 
@@ -137,7 +155,7 @@ scene.add(floor)
 
 // Load model
 let carPaintMesh = null;
-
+let  carTyreMesh = null;
 gltfLoader.load('/models/scene.glb', (gltf) => {
     // console.log(gltf.scene);
     gltf.scene.scale.set(25, 25, 25);
@@ -167,9 +185,16 @@ function updateMaterial() {
         }
         if (child.isMesh && child.material.name === 'EXT_Carpaint.004') {
             carPaintMesh = child;
+            carPaintMesh.material.color.set('white');
         }
+        if (child.isMesh && child.material.name === 'EXT_Tyre.004') {
+          carTyreMesh = child; // Store the reference to the tyre mesh
+    
+      }
        
-    });
+        
+       
+    }); 
 }
 
 
@@ -187,12 +212,13 @@ function animate() {
 
   const elapsedTime = clock.getElapsedTime();
   const radius = 65; // Radius of the circular path
-  const speed = 0.08; // Speed of the camera revolution
+  const speed = 0.1; // Speed of the camera revolution
   const angle = elapsedTime * speed; // Calculate the angle based on elapsed time
 
   camera.position.x = radius * Math.cos(angle);
   camera.position.z = radius * Math.sin(angle);
   camera.lookAt(0, 0, 0);
+
    // Look at the center where the car is
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
@@ -217,82 +243,76 @@ document.querySelectorAll('button[data-color]').forEach(button => {
     });
 });
 
-
-
 const leftBox1 = document.getElementById('infoone');
 const leftBox2 = document.getElementById('infothree');
 const rightBox1 = document.getElementById('infotwo');
 const rightBox2 = document.getElementById('infofour');
-const leftButton1 = document.getElementById('btn1');
-const leftButton2 = document.getElementById('btn2');
-const rightButton1 = document.getElementById('btn3');
-const rightButton2 = document.getElementById('btn4');
+const leftButton1 = document.getElementById('select1');
+const leftButton2 = document.getElementById('select2');
+const rightButton1 = document.getElementById('select3');
+const rightButton2 = document.getElementById('select4');
 
 let left1Toggled = false;
 let left2Toggled = false;
 let right1Toggled = false;
 let right2Toggled = false;
 
+function closeAllDivs() {
+  gsap.to(leftBox1, { transform: 'translateX(-100%)', duration: 1,ease: "power1.out", });
+  gsap.to(leftBox2, { transform: 'translateX(-100%)', duration: 1,ease: "power1.out", });
+  gsap.to(rightBox1, { transform: 'translateX(100%)', duration: 1,ease: "power1.out", });
+  gsap.to(rightBox2, { transform: 'translateX(100%)', duration: 1,ease: "power1.out", });
 
+  left1Toggled = false;
+  left2Toggled = false;
+  right1Toggled = false;
+  right2Toggled = false;
+}
 
 leftButton1.addEventListener('click', () => {
-  if (left2Toggled) {
-    gsap.to(leftBox2, { transform: 'translateX(-100%)', duration: 1 });
-    left2Toggled = false;
-  }
+  closeAllDivs();
   left1Toggled = !left1Toggled;
-  gsap.to(leftBox1, { transform: left1Toggled ? 'translateX(0%)' : 'translateX(-100%)', duration: 1 });
+  gsap.to(leftBox1, { transform: left1Toggled ? 'translateX(0%)' : 'translateX(-100%)', duration: 1,ease: "power1.out", });
   if (left1Toggled) {
     setTimeout(() => {
-      gsap.to(leftBox1, { transform: 'translateX(-100%)', duration: 1 });
+      gsap.to(leftBox1, { transform: 'translateX(-100%)', duration: 1,ease: "power1.out", });
       left1Toggled = false;
-    }, 2000);
+    }, 10000);
   }
 });
 
 leftButton2.addEventListener('click', () => {
-  if (left1Toggled) {
-    gsap.to(leftBox1, { transform: 'translateX(-100%)', duration: 1 });
-    left1Toggled = false;
-  }
+  closeAllDivs();
   left2Toggled = !left2Toggled;
-  gsap.to(leftBox2, { transform: left2Toggled ? 'translateX(0%)' : 'translateX(-100%)', duration: 1 });
+  gsap.to(leftBox2, { transform: left2Toggled ? 'translateX(0%)' : 'translateX(-100%)', duration: 1,ease: "power1.out", });
   if (left2Toggled) {
     setTimeout(() => {
-      gsap.to(leftBox2, { transform: 'translateX(-100%)', duration: 1 });
+      gsap.to(leftBox2, { transform: 'translateX(-100%)', duration: 1,ease: "power1.out", });
       left2Toggled = false;
-    }, 2000);
+    }, 10000);
   }
 });
 
 rightButton1.addEventListener('click', () => {
-  if (right2Toggled) {
-    gsap.to(rightBox2, { transform: 'translateX(100%)', duration: 1 });
-    right2Toggled = false;
-  }
+  closeAllDivs();
   right1Toggled = !right1Toggled;
-  gsap.to(rightBox1, { transform: right1Toggled ? 'translateX(0%)' : 'translateX(100%)', duration: 1 });
+  gsap.to(rightBox1, { transform: right1Toggled ? 'translateX(0%)' : 'translateX(100%)', duration: 1,ease: "power1.out", });
   if (right1Toggled) {
     setTimeout(() => {
-      gsap.to(rightBox1, { transform: 'translateX(100%)', duration: 1 });
+      gsap.to(rightBox1, { transform: 'translateX(100%)', duration: 1,ease: "power1.out", });
       right1Toggled = false;
-    }, 2000);
+    }, 10000);
   }
 });
 
 rightButton2.addEventListener('click', () => {
-  if (right1Toggled) {
-    gsap.to(rightBox1, { transform: 'translateX(100%)', duration: 1 });
-    right1Toggled = false;
-  }
+  closeAllDivs();
   right2Toggled = !right2Toggled;
-  gsap.to(rightBox2, { transform: right2Toggled ? 'translateX(0%)' : 'translateX(100%)', duration: 1 });
+  gsap.to(rightBox2, { transform: right2Toggled ? 'translateX(0%)' : 'translateX(100%)', duration: 1,ease: "power1.out", });
   if (right2Toggled) {
     setTimeout(() => {
-      gsap.to(rightBox2, { transform: 'translateX(100%)', duration: 1 });
+      gsap.to(rightBox2, { transform: 'translateX(100%)', duration: 1,ease: "power1.out", });
       right2Toggled = false;
-    }, 2000);
+    }, 10000);
   }
 });
-
-
