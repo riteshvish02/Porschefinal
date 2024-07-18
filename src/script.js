@@ -4,7 +4,7 @@ import * as dat from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 // import gsap from 'gsap'
-Shery.mouseFollower();
+// Shery.mouseFollower();
 
 function inet(){
     gsap.registerPlugin(ScrollTrigger);
@@ -68,7 +68,7 @@ renderer.shadowMap.enabled = true;
 renderer.toneMappingExposure = 2
 renderer.setClearColor('black')
 
-const fog = new THREE.Fog('black',50,100)
+const fog = new THREE.Fog('black',50,130)
 scene.fog = fog
 
 const gui = new dat.GUI({ width: 400, height: 400, scale: 2 });
@@ -83,8 +83,8 @@ gui.add(renderer, 'toneMapping', {
 });
 
 // Lighting
-const directionlight = new THREE.DirectionalLight('#ffffff',8.188   )
-directionlight.position.set(-5.763,20,-2.25)
+const directionlight = new THREE.DirectionalLight('#ffffff',15  )
+directionlight.position.set(-5.763,40,-2.25)
 scene.add(directionlight)
 
 directionlight.castShadow = true;
@@ -99,18 +99,18 @@ directionlight.shadow.camera.near = 0.5;
 directionlight.shadow.camera.far = 500;
 const DirectionalLightHelper = new THREE.DirectionalLightHelper(directionlight,0.2)
 scene.add(DirectionalLightHelper)
-gui.add(directionlight,'intensity').min(0).max(10).step(0.001).name('lightIntensity')
-gui.add(directionlight.position,'x').min(-20).max(30).step(0.001).name('lightX')
-gui.add(directionlight.position,'y').min(-20).max(30).step(0.001).name('lightY')
-gui.add(directionlight.position,'z').min(-20).max(30).step(0.001).name('lightZ')
+gui.add(directionlight,'intensity').min(0).max(25).step(0.001).name('lightIntensity')
+gui.add(directionlight.position,'x').min(-50).max(50).step(0.001).name('lightX')
+gui.add(directionlight.position,'y').min(-50).max(50).step(0.001).name('lightY')
+gui.add(directionlight.position,'z').min(-50).max(50).step(0.001).name('lightZ')
 const ambientLight = new THREE.AmbientLight('#b9d5ff', 0.12)
-gui.add(ambientLight, 'intensity').min(0).max(5).step(0.001)
+gui.add(ambientLight, 'intensity').min(0).max(10).step(0.001)
 scene.add(ambientLight)
 
 
 // Floor
 const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(300, 300),
+    new THREE.PlaneGeometry(400, 400),
     new THREE.MeshStandardMaterial({ 
         color: '#222222',
         // aoMap:grassambientOcclusiontexture,
@@ -131,29 +131,16 @@ floor.rotation.x = - Math.PI * 0.5
 floor.position.y = -12.5
 scene.add(floor)
 
-// Raycaster
-const raycaster = new THREE.Raycaster();
-const points = [
-    { position: new THREE.Vector3(-10,5.48,11), element: document.querySelector('.point-0') },
-    { position: new THREE.Vector3(36.77, 0.8, -1.6), element: document.querySelector('.point-1') },
-    { position: new THREE.Vector3(-41, -1.3, -0.7), element: document.querySelector('.point-2') }
-];
 
-points.forEach((point, index) => {
-    const pointFolder = gui.addFolder(`Point ${index}`);
-    pointFolder.add(point.position, 'x').min(-200).max(200).step(0.01).name('X Position');
-    pointFolder.add(point.position, 'y').min(-200).max(200).step(0.01).name('Y Position');
-    pointFolder.add(point.position, 'z').min(-200).max(200).step(0.01).name('Z Position');
-});
+
 
 
 // Load model
 let carPaintMesh = null;
-let angle = 0;
-const radius = 100;
+
 gltfLoader.load('/models/scene.glb', (gltf) => {
     // console.log(gltf.scene);
-    gltf.scene.scale.set(21, 21, 21);
+    gltf.scene.scale.set(25, 25, 25);
     gltf.scene.position.set(0, 0, 0);
     gltf.scene.rotation.y = Math.PI / 2;
     scene.add(gltf.scene);
@@ -181,28 +168,32 @@ function updateMaterial() {
         if (child.isMesh && child.material.name === 'EXT_Carpaint.004') {
             carPaintMesh = child;
         }
+       
     });
 }
 
-// Change car paint color
+
+
 function changeCarPaintColor(color) {
     if (carPaintMesh) {
         carPaintMesh.material.color.set(color);
     }
 }
 
+const clock = new THREE.Clock();
 // Animate
 function animate() {
-   
-    points.forEach(point => {
-        const screenPosition = point.position.clone().project(camera);
-        raycaster.setFromCamera(screenPosition, camera);
-        const intersects = raycaster.intersectObjects(scene.children, true);
-        const intersectionDistance = intersects.length > 0 ? intersects[0].distance : Infinity;
-        const pointDistance = point.position.distanceTo(camera.position);
-        point.element.classList.toggle('visible', intersectionDistance >= pointDistance);
-        point.element.style.transform = `translateX(${screenPosition.x * sizes.width * 0.5}px) translateY(${-screenPosition.y * sizes.height * 0.5}px)`;
-    });
+
+
+  const elapsedTime = clock.getElapsedTime();
+  const radius = 65; // Radius of the circular path
+  const speed = 0.08; // Speed of the camera revolution
+  const angle = elapsedTime * speed; // Calculate the angle based on elapsed time
+
+  camera.position.x = radius * Math.cos(angle);
+  camera.position.z = radius * Math.sin(angle);
+  camera.lookAt(0, 0, 0);
+   // Look at the center where the car is
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
 }
@@ -303,3 +294,5 @@ rightButton2.addEventListener('click', () => {
     }, 2000);
   }
 });
+
+
