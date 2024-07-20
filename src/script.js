@@ -1,10 +1,9 @@
 import './style.css'
 import * as THREE from 'three'
-import * as dat from 'lil-gui'
+// import * as dat from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
-// import gsap from 'gsap'
-// Shery.mouseFollower();
+Shery.mouseFollower();
 
 function inet(){
     gsap.registerPlugin(ScrollTrigger);
@@ -28,18 +27,77 @@ function inet(){
     
     inet();
 
+
+    const loadingManager = new THREE.LoadingManager(
+       // Loaded
+    () =>
+      {
+          // Wait a little
+          window.setTimeout(() =>
+              {
+                console.log("loaded");
+              var tl1 = gsap.timeline()
+              tl1
+              .to('#loading #elem',{
+                clipPath:` polygon(0 0, 0% 0, 0% 100%, 0% 100%)`,
+                duration:1.2,
+                ease: "power4.out",
+              },"var")
+              .to('#loading', {
+                 display: 'none',
+                 delay:0.2,
+                },"var")
+              .to('#animation', {
+                  display:'initial',
+                },"var")
+                .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
+                  transform: "translateY(0)",
+                  duration:1.5,
+                  ease: "power1.out",
+                },"var2")
+                .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
+                  transform: "translateY(0)",
+                  delay:0.2,
+                  duration:1.5,
+                  ease: "power1.out",
+                },"var2")
+                .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
+                  transform: "translateY(0)",
+                  delay:0.3,
+                  duration:1.5,
+                  ease: "power1.out",
+                },"var2")
+                .to("#navcenter img:nth-child(4)",{
+                  transform: "translateY(0)",
+                  delay:0.4,
+                  duration:1.5,
+                  ease: "power1.out",
+                },"var2")
+              // Animate overlay
+  
+          }, 1000)
+  
+        
+      },
+  
+      // Progress
+      (itemUrl, itemsLoaded, itemsTotal) =>
+      {
+  
+          // Calculate the progress and update the loadingBarElement
+          // const progressRatio = itemsLoaded / totalItems;
+          // const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
+          // // console.log(progressRatio, progressPercentage.toFixed());
+      
+          // loadingBarElement.style.transform = `scaleX(${progressRatio})`;
+          //  loadingBarElementh2.textContent = progressPercentage + "%"
+      }
+  )
 // Texture loading
-const textureLoader = new THREE.TextureLoader();
+const textureLoader = new THREE.TextureLoader(loadingManager);
 const floorterrain = textureLoader.load('/textures/terrain-normal.jpg');
 const floorrough = textureLoader.load('/textures/terrain-roughness.jpg');
-// const ao  =  textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_ao_4k.png")
-// const b = textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_arm_4k.png")
-// const color = textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_diff_4k.png")
-// const dis =  textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_disp_4k.png")
-// const nor = textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_nor_dx_4k.png")
-// const f = textureLoader.load("/rubber_tiles_4k/textures/rubber_tiles_nor_gl_4k.png")
-// const rough = textureLoader.load('/rubber_tiles_4k/textures/rubber_tiles_rough_4k.png')
-const cubetexture = new THREE.CubeTextureLoader();
+const cubetexture = new THREE.CubeTextureLoader(loadingManager);
 const env = cubetexture.load([
     '/textures/environmentMaps/1/px.jpg',
     '/textures/environmentMaps/1/nx.jpg',
@@ -50,10 +108,10 @@ const env = cubetexture.load([
 ]);
 
 // GLTF and DRACO loading
-const dracoLoader = new DRACOLoader();
+const dracoLoader = new DRACOLoader(loadingManager);
 dracoLoader.setDecoderPath('/draco/');
 dracoLoader.setDecoderConfig({ type: 'wasm', url: '/draco/draco_decoder.wasm' });
-const gltfLoader = new GLTFLoader();
+const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.setDRACOLoader(dracoLoader);
 
 // Base settings
@@ -73,21 +131,21 @@ renderer.outputEncoding = THREE.sRGBEncoding
 env.encoding = THREE.sRGBEncoding
 renderer.shadowMap.enabled = true;
 renderer.toneMappingExposure = 2
-renderer.setClearColor('black')
+renderer.setClearColor('#111')
 
-const fog = new THREE.Fog('black',50,130)
+const fog = new THREE.Fog('#111',50,130)
 scene.fog = fog
 
-const gui = new dat.GUI({ width: 400, height: 400, scale: 2 });
-const Debugobj = { intensity: 1 };
-gui.add(Debugobj, 'intensity').max(10).min(1).step(1).name('intensityEnvMap').onChange(updateMaterial);
-gui.add(renderer, 'toneMapping', {
-    No: THREE.NoToneMapping,
-    Linaer: THREE.LinearToneMapping,
-    Reinhard: THREE.ReinhardToneMapping,
-    cineon: THREE.CineonToneMapping,
-    ACESFilmicg: THREE.ACESFilmicToneMapping,
-});
+// const gui = new dat.GUI({ width: 400, height: 400, scale: 2 });
+// const Debugobj = { intensity: 1 };
+// gui.add(Debugobj, 'intensity').max(10).min(1).step(1).name('intensityEnvMap').onChange(updateMaterial);
+// gui.add(renderer, 'toneMapping', {
+//     No: THREE.NoToneMapping,
+//     Linaer: THREE.LinearToneMapping,
+//     Reinhard: THREE.ReinhardToneMapping,
+//     cineon: THREE.CineonToneMapping,
+//     ACESFilmicg: THREE.ACESFilmicToneMapping,
+// });
 
 // Lighting
 const directionlight = new THREE.DirectionalLight('#ffffff',15  )
@@ -106,12 +164,12 @@ directionlight.shadow.camera.near = 0.5;
 directionlight.shadow.camera.far = 500;
 const DirectionalLightHelper = new THREE.DirectionalLightHelper(directionlight,0.2)
 // scene.add(DirectionalLightHelper)
-gui.add(directionlight,'intensity').min(0).max(25).step(0.001).name('lightIntensity')
-gui.add(directionlight.position,'x').min(-50).max(50).step(0.001).name('lightX')
-gui.add(directionlight.position,'y').min(-50).max(50).step(0.001).name('lightY')
-gui.add(directionlight.position,'z').min(-50).max(50).step(0.001).name('lightZ')
+// gui.add(directionlight,'intensity').min(0).max(25).step(0.001).name('lightIntensity')
+// gui.add(directionlight.position,'x').min(-50).max(50).step(0.001).name('lightX')
+// gui.add(directionlight.position,'y').min(-50).max(50).step(0.001).name('lightY')
+// gui.add(directionlight.position,'z').min(-50).max(50).step(0.001).name('lightZ')
 const ambientLight = new THREE.AmbientLight('#b9d5ff', 0.12)
-gui.add(ambientLight, 'intensity').min(0).max(10).step(0.001)
+// gui.add(ambientLight, 'intensity').min(0).max(10).step(0.001)
 scene.add(ambientLight)
 
 
@@ -120,14 +178,6 @@ const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(400, 400),
     new THREE.MeshStandardMaterial({ 
         color: '#111',
-        // map:color,
-        // transparent:true,   
-        // aoMap:ao,
-        // displacementMap:dis,
-        // displacementScale:0.1,
-        // normalMap:nor,
-        // roughnessMap:rough
-        // aoMap:grassambientOcclusiontexture,
         normalMap:floorterrain,
         roughnessMap:floorrough,
         roughness: 0.8, // Lower value makes it shinier
@@ -152,34 +202,67 @@ scene.add(floor)
 
 
 
-
+let model;
 // Load model
 let carPaintMesh = null;
 let  carTyreMesh = null;
 gltfLoader.load('/models/scene.glb', (gltf) => {
-    // console.log(gltf.scene);
-    gltf.scene.scale.set(25, 25, 25);
-    gltf.scene.position.set(0, 0, 0);
-    gltf.scene.rotation.y = Math.PI / 2;
-    scene.add(gltf.scene);
-   
-    gui.add(gltf.scene.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
-    gui.add(gltf.scene.position, 'x').min(0).max(100).step(0.001).name('Rotation');
-    gui.add(gltf.scene.position, 'y').min(0).max(100).step(0.001).name('Rotation');
-    gui.add(gltf.scene.position, 'z').min(0).max(100).step(0.001).name('Rotation');
-    gui.add(gltf.scene.scale, 'x').min(0).max(100).step(0.001).name('Rotation');
-    gui.add(gltf.scene.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
-    gui.add(gltf.scene.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
+  model = gltf.scene
+    // console.log(model);
+    model.scale.set(25, 25, 25);
+    model.position.set(0, 0, 0);
+    model.rotation.y = Math.PI / 2;
+    scene.add(model);
+    adjustModelForScreen()
+
+  
+ 
+    // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
+    // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
+    // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
+    // gui.add(model.position, 'z').min(0).max(100).step(0.001).name('Rotation');
+    // gui.add(model.scale, 'x').min(0).max(100).step(0.001).name('Rotation');
+    // gui.add(model.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
+    // gui.add(model.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
    
     updateMaterial();
 });
+
+
+function adjustModelForScreen() {
+  if (model) {
+      const aspectRatio = window.matchMedia("(max-width: 768px)").matches
+      if (aspectRatio) { // Portrait mode
+          model.scale.set(13, 13, 13)
+          model.position.set(0, -4, 0)
+      } else { // Landscape mode
+          model.scale.set(25, 25, 25)
+      }
+  } 
+}
+
+let wasMobile = sizes.width <= 768;
+function refreshPageIfNeeded() {
+  const isMobile = window.innerWidth <= 768;
+
+  // Check if the viewport crossed the mobile threshold
+  if (isMobile !== wasMobile) {
+      location.reload(); // Reload the page
+  }
+
+  wasMobile = isMobile;
+}
+
+
+refreshPageIfNeeded();
+
 
 // Update material
 function updateMaterial() {
     scene.traverse((child) => {
         if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
             child.material.envMap = env;
-            child.material.envMapIntensity = Debugobj.intensity;
+            // child.material.envMapIntensity = Debugobj.intensity;
             child.castShadow = true;
             child.receiveShadow = true;
         }
@@ -234,6 +317,8 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    refreshPageIfNeeded();
+    adjustModelForScreen()
 });
 
 // Color change buttons
@@ -316,3 +401,66 @@ rightButton2.addEventListener('click', () => {
     }, 10000);
   }
 });
+
+
+const tl = gsap.timeline({ paused: true, reversed: true });
+
+const openNav = () => {
+    animateOpenNav();
+    const navBtn = document.getElementById("menu-toggle-btn");
+    navBtn.onclick = function (e) {
+        navBtn.classList.toggle("active");
+        tl.reversed() ? tl.play() : tl.reverse();
+    };
+};
+
+const animateOpenNav = () => {
+    tl.to(".nav-container", {
+         duration: 0.1, 
+         autoAlpha: 1, 
+    })
+    .from(".contact svg", { 
+        duration: 0.2, 
+        y:30,
+        opacity:0,
+        delay:0.7,
+        color: "#fff",
+        ease: "power2.inOut", 
+        stagger: { 
+            amount: 0.1 
+        }, 
+    },)
+    .from(".flex > div", { 
+        duration: 0.4, 
+        opacity: 0, 
+        y: 10, 
+        stagger: { 
+            amount: 0.04, 
+        }
+    })
+    .to(".nav-link > a", {
+        duration: 0.8, 
+        top: 0, 
+        ease: "power2.inOut", 
+        stagger: { 
+            amount: 0.1 
+        } 
+    }, "-=0.4")
+    .from(".btn button", { 
+        duration: 0.5, 
+        y:30,
+        opacity:0,
+        ease: "power2.inOut", 
+        stagger: { 
+            amount: 0.1 
+        }, 
+        color: "#fff" 
+    }, "-=0.1")
+    .from(".nav-footer", {
+        duration: 0.3, 
+        opacity: 0 
+    }, "-=0.5");
+};
+
+// openNav();
+
