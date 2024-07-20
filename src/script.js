@@ -28,71 +28,71 @@ function inet(){
     inet();
 
 
-    const loadingManager = new THREE.LoadingManager(
-       // Loaded
-    () =>
-      {
-          // Wait a little
-          window.setTimeout(() =>
-              {
-                console.log("loaded");
-              var tl1 = gsap.timeline()
-              tl1
-              .to('#loading #elem',{
-                clipPath:` polygon(0 0, 0% 0, 0% 100%, 0% 100%)`,
-                duration:1.2,
-                ease: "power4.out",
-              },"var")
-              .to('#loading', {
-                 display: 'none',
-                 delay:0.2,
-                },"var")
-              .to('#animation', {
-                  display:'initial',
-                },"var")
-                .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
-                  transform: "translateY(0)",
-                  duration:1.5,
-                  ease: "power1.out",
-                },"var2")
-                .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
-                  transform: "translateY(0)",
-                  delay:0.2,
-                  duration:1.5,
-                  ease: "power1.out",
-                },"var2")
-                .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
-                  transform: "translateY(0)",
-                  delay:0.3,
-                  duration:1.5,
-                  ease: "power1.out",
-                },"var2")
-                .to("#navcenter img:nth-child(4)",{
-                  transform: "translateY(0)",
-                  delay:0.4,
-                  duration:1.5,
-                  ease: "power1.out",
-                },"var2")
-              // Animate overlay
+  //   const loadingManager = new THREE.LoadingManager(
+  //      // Loaded
+  //   () =>
+  //     {
+  //         // Wait a little
+  //         window.setTimeout(() =>
+  //             {
+  //               console.log("loaded");
+  //             var tl1 = gsap.timeline()
+  //             tl1
+  //             .to('#loading #elem',{
+  //               clipPath:` polygon(0 0, 0% 0, 0% 100%, 0% 100%)`,
+  //               duration:1.2,
+  //               ease: "power4.out",
+  //             },"var")
+  //             .to('#loading', {
+  //                display: 'none',
+  //                delay:0.2,
+  //               },"var")
+  //             .to('#animation', {
+  //                 display:'initial',
+  //               },"var")
+  //               .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
+  //                 transform: "translateY(0)",
+  //                 duration:1.5,
+  //                 ease: "power1.out",
+  //               },"var2")
+  //               .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
+  //                 transform: "translateY(0)",
+  //                 delay:0.2,
+  //                 duration:1.5,
+  //                 ease: "power1.out",
+  //               },"var2")
+  //               .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
+  //                 transform: "translateY(0)",
+  //                 delay:0.3,
+  //                 duration:1.5,
+  //                 ease: "power1.out",
+  //               },"var2")
+  //               .to("#navcenter img:nth-child(4)",{
+  //                 transform: "translateY(0)",
+  //                 delay:0.4,
+  //                 duration:1.5,
+  //                 ease: "power1.out",
+  //               },"var2")
+  //             // Animate overlay
   
-          }, 1000)
+  //         }, 1000)
   
         
-      },
+  //     },
   
-      // Progress
-      (itemUrl, itemsLoaded, itemsTotal) =>
-      {
+  //     // Progress
+  //     (itemUrl, itemsLoaded, itemsTotal) =>
+  //     {
   
-          // Calculate the progress and update the loadingBarElement
-          // const progressRatio = itemsLoaded / totalItems;
-          // const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
-          // // console.log(progressRatio, progressPercentage.toFixed());
+  //         // Calculate the progress and update the loadingBarElement
+  //         // const progressRatio = itemsLoaded / totalItems;
+  //         // const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
+  //         // // console.log(progressRatio, progressPercentage.toFixed());
       
-          // loadingBarElement.style.transform = `scaleX(${progressRatio})`;
-          //  loadingBarElementh2.textContent = progressPercentage + "%"
-      }
-  )
+  //         // loadingBarElement.style.transform = `scaleX(${progressRatio})`;
+  //         //  loadingBarElementh2.textContent = progressPercentage + "%"
+  //     }
+  // )
 // Texture loading
 const textureLoader = new THREE.TextureLoader(loadingManager);
 const floorterrain = textureLoader.load('/textures/terrain-normal.jpg');
@@ -206,27 +206,27 @@ let model;
 // Load model
 let carPaintMesh = null;
 let  carTyreMesh = null;
-gltfLoader.load('/models/scene.glb', (gltf) => {
-  model = gltf.scene
-    // console.log(model);
-    model.scale.set(25, 25, 25);
-    model.position.set(0, 0, 0);
-    model.rotation.y = Math.PI / 2;
-    scene.add(model);
-    adjustModelForScreen()
+// gltfLoader.load('/models/scene.glb', (gltf) => {
+//   model = gltf.scene
+//     // console.log(model);
+//     model.scale.set(25, 25, 25);
+//     model.position.set(0, 0, 0);
+//     model.rotation.y = Math.PI / 2;
+//     scene.add(model);
+//     adjustModelForScreen()
 
   
  
-    // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
-    // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
-    // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
-    // gui.add(model.position, 'z').min(0).max(100).step(0.001).name('Rotation');
-    // gui.add(model.scale, 'x').min(0).max(100).step(0.001).name('Rotation');
-    // gui.add(model.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
-    // gui.add(model.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
+//     // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.position, 'z').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.scale, 'x').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
    
-    updateMaterial();
-});
+//     updateMaterial();
+// });
 
 
 function adjustModelForScreen() {
