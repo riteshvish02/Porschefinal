@@ -28,71 +28,69 @@ function inet(){
     inet();
 
 
-  //   const loadingManager = new THREE.LoadingManager(
-  //      // Loaded
-  //   () =>
-  //     {
-  //         // Wait a little
-  //         window.setTimeout(() =>
-  //             {
-  //               console.log("loaded");
-  //             var tl1 = gsap.timeline()
-  //             tl1
-  //             .to('#loading #elem',{
-  //               clipPath:` polygon(0 0, 0% 0, 0% 100%, 0% 100%)`,
-  //               duration:1.2,
-  //               ease: "power4.out",
-  //             },"var")
-  //             .to('#loading', {
-  //                display: 'none',
-  //                delay:0.2,
-  //               },"var")
-  //             .to('#animation', {
-  //                 display:'initial',
-  //               },"var")
-  //               .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
-  //                 transform: "translateY(0)",
-  //                 duration:1.5,
-  //                 ease: "power1.out",
-  //               },"var2")
-  //               .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
-  //                 transform: "translateY(0)",
-  //                 delay:0.2,
-  //                 duration:1.5,
-  //                 ease: "power1.out",
-  //               },"var2")
-  //               .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
-  //                 transform: "translateY(0)",
-  //                 delay:0.3,
-  //                 duration:1.5,
-  //                 ease: "power1.out",
-  //               },"var2")
-  //               .to("#navcenter img:nth-child(4)",{
-  //                 transform: "translateY(0)",
-  //                 delay:0.4,
-  //                 duration:1.5,
-  //                 ease: "power1.out",
-  //               },"var2")
-  //             // Animate overlay
+    const loadingManager = new THREE.LoadingManager(
+       // Loaded
+    () =>
+      {
+          // Wait a little
+          window.setTimeout(() =>
+              {
+                console.log("loaded");
+              var tl1 = gsap.timeline()
+              tl1
+              .to('#loading #elem',{
+                clipPath:` polygon(0 0, 0% 0, 0% 100%, 0% 100%)`,
+                duration:1.2,
+                ease: "power4.out",
+              },"var")
+              .to('#loading', {
+                 display: 'none',
+                 delay:0.2,
+                },"var")
+             
+              //   .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
+              //     transform: "translateY(0)",
+              //     duration:1.5,
+              //     ease: "power1.out",
+              //   },"var2")
+              //   .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
+              //     transform: "translateY(0)",
+              //     delay:0.2,
+              //     duration:1.5,
+              //     ease: "power1.out",
+              //   },"var2")
+              //   .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
+              //     transform: "translateY(0)",
+              //     delay:0.3,
+              //     duration:1.5,
+              //     ease: "power1.out",
+              //   },"var2")
+              //   .to("#navcenter img:nth-child(4)",{
+              //     transform: "translateY(0)",
+              //     delay:0.4,
+              //     duration:1.5,
+              //     ease: "power1.out",
+              //   },"var2")
+              // Animate overlay
   
-  //         }, 1000)
+          }, 1000)
   
         
-  //     },
+      },
   
-  //     // Progress
-  //     (itemUrl, itemsLoaded, itemsTotal) =>
-  //     {
+      // Progress
+      (itemUrl, itemsLoaded, itemsTotal) =>
+      {
   
-  //         // Calculate the progress and update the loadingBarElement
-  //         // const progressRatio = itemsLoaded / totalItems;
-  //         // const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
-  //         // // console.log(progressRatio, progressPercentage.toFixed());
+          // Calculate the progress and update the loadingBarElement
+          // const progressRatio = itemsLoaded / totalItems;
+          // const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
+          // // console.log(progressRatio, progressPercentage.toFixed());
       
-  //         // loadingBarElement.style.transform = `scaleX(${progressRatio})`;
-  //         //  loadingBarElementh2.textContent = progressPercentage + "%"
-  //     }
-  // )
+          // loadingBarElement.style.transform = `scaleX(${progressRatio})`;
+          //  loadingBarElementh2.textContent = progressPercentage + "%"
+      }
+  )
 // Texture loading
 const textureLoader = new THREE.TextureLoader(loadingManager);
 const floorterrain = textureLoader.load('/textures/terrain-normal.jpg');
@@ -464,3 +462,143 @@ const animateOpenNav = () => {
 
 // openNav();
 
+function iconAnimation(){
+  const { createApp, Events, Utils } = Veloxi
+
+  const MacOsDockPlugin = (context) => {
+  let items
+  let root
+  context.subscribeToEvents((eventBus) => {
+      eventBus.subscribeToEvent(Events.PointerMoveEvent, onMouseMove)
+  })
+
+  function onMouseMove(event) {
+      if (!root.intersects(event.x, event.y)) {
+      items.forEach((item) => {
+          item.size.reset()
+      })
+      return
+      }
+      items.forEach((item) => {
+      const progress = Utils.pointToViewProgress(
+          { x: event.x, y: event.y },
+          item,
+          120
+      )
+      const scale = Utils.remap(progress, 0, 1, 1, 2)
+      item.size.set({ width: 40 * scale, height: 40 * scale })
+      })
+  }
+
+  context.setup(() => {
+      root = context.getView('root')
+      items = context.getViews('item')
+      items.forEach((item) => {
+      item.size.setAnimator('dynamic')
+      item.origin.set({ x: 0.5, y: 1 })
+      })
+  })
+  }
+
+  MacOsDockPlugin.pluginName = 'MacOsDock'
+
+  const app = createApp()
+  app.addPlugin(MacOsDockPlugin)
+  app.run()
+}
+iconAnimation()
+
+
+
+let elements = document.querySelectorAll(".rolling-text");
+elements.forEach((element) => {
+  let innerText = element.innerText;
+  element.innerHTML = "";
+  let textContainer= document.createElement("div");
+  textContainer.classList.add("block");
+  for(let letter of innerText){
+      let span = document.createElement("span");
+      span. innerText = letter.trim() === "" ? "\xa0": letter;
+      span.classList.add("letter");
+      textContainer.appendChild(span);
+  }
+  element.appendChild(textContainer);
+  element.appendChild(textContainer.cloneNode(true));
+});
+elements.forEach((element) => {
+  element.addEventListener("mouseover", () => {
+      element.classList.remove("play");
+  });
+});
+
+
+
+function aniInit() {
+  const animateChars = (chars, reverse = false) => {
+      const staggerOptions = {
+          each: .35,
+          from: reverse ? "start" : "end",
+          ease: "linear",
+      };
+      gsap.fromTo(chars, {
+          fontWeight: 100,
+      }, {
+          fontWeight: 'bolder',
+          duration: 1,
+          ease: 'none',
+          stagger: staggerOptions,
+          scrollTrigger: {
+              trigger: chars[0].closest('.marquee-container'),
+              start: "50% bottom",
+              end: "top top",
+              scrub: true,
+              scroller: "#main"
+          }
+      });
+  };
+
+  const splitText = new SplitType(".item h1", { types: "chars" });
+
+  const marqueeContainers = document.querySelectorAll(".marquee-container");
+
+  marqueeContainers.forEach((container, index) => {
+      let start = "0%";
+      let end = "-15%";
+
+      if (index % 2 === 0) {
+          start = "0%";
+          end = "10%";
+      }
+      const marquee = container.querySelector(".marquee");
+      const words = marquee.querySelectorAll('.item h1');
+
+      gsap.fromTo(marquee, {
+          x: start,
+      }, {
+          x: end,
+          scrollTrigger: {
+              trigger: container,
+              start: "top bottom",
+              end: "150% top",
+              scrub: true,
+              scroller: "#main"
+          }
+      });
+
+      words.forEach((word) => {
+          const chars = Array.from(word.querySelectorAll(".char"));
+          if (chars.length) {
+              const reverse = index % 2 !== 0;
+              animateChars(chars, reverse);
+          }
+      });
+  });
+}
+
+function page2() {
+  document.addEventListener("DOMContentLoaded", () => {
+      aniInit();
+  });
+}
+
+page2();
