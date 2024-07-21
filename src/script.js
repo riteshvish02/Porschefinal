@@ -1,6 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 // import * as dat from 'lil-gui'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 Shery.mouseFollower();
@@ -118,7 +119,6 @@ const scene = new THREE.Scene();
 const sizes = { width: window.innerWidth, height: window.innerHeight };
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
 camera.position.z = 70;
-camera.position.y = 15;
 scene.add(camera);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true,});
@@ -203,18 +203,16 @@ scene.add(floor)
 let model;
 // Load model
 let carPaintMesh = null;
-let  carTyreMesh = null;
-// gltfLoader.load('/models/scene.glb', (gltf) => {
-//   model = gltf.scene
-//     // console.log(model);
-//     model.scale.set(25, 25, 25);
-//     model.position.set(0, 0, 0);
-//     model.rotation.y = Math.PI / 2;
-//     scene.add(model);
-//     adjustModelForScreen()
-
+let tyreMeshes = [];
+gltfLoader.load('/models/scene.glb', (gltf) => {
   
- 
+  model = gltf.scene
+    // console.log(model);
+    model.scale.set(25, 25, 25);
+    model.position.set(0, 0, 0);
+    model.rotation.y = Math.PI / 2;
+    scene.add(model);
+    adjustModelForScreen()
 //     // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
 //     // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
 //     // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
@@ -223,8 +221,8 @@ let  carTyreMesh = null;
 //     // gui.add(model.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
 //     // gui.add(model.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
    
-//     updateMaterial();
-// });
+    updateMaterial();
+});
 
 
 function adjustModelForScreen() {
@@ -268,18 +266,23 @@ function updateMaterial() {
             carPaintMesh = child;
             carPaintMesh.material.color.set('white');
         }
-        if (child.isMesh && child.material.name === 'EXT_Tyre.004') {
-          carTyreMesh = child; // Store the reference to the tyre mesh
-    
-      }
+        
        
         
        
     }); 
 }
 
+const controls = new OrbitControls(camera, canvas)
 
 
+// // Restrict vertical rotation (phi) to limit top and bottom views
+controls.minPolarAngle = Math.PI / 2.6; // 45 degrees
+controls.maxPolarAngle = Math.PI / 2.6;
+controls.enableZoom = false;
+// Optionally, set damping factor for smoothness
+controls.dampingFactor = 0.25; 
+controls.enableDamping = true
 function changeCarPaintColor(color) {
     if (carPaintMesh) {
         carPaintMesh.material.color.set(color);
@@ -290,16 +293,19 @@ const clock = new THREE.Clock();
 // Animate
 function animate() {
 
-
+  controls.update();
   const elapsedTime = clock.getElapsedTime();
-  const radius = 65; // Radius of the circular path
-  const speed = 0.1; // Speed of the camera revolution
-  const angle = elapsedTime * speed; // Calculate the angle based on elapsed time
-
-  camera.position.x = radius * Math.cos(angle);
-  camera.position.z = radius * Math.sin(angle);
-  camera.lookAt(0, 0, 0);
-
+  // const radius = 65; // Radius of the circular path
+  // const speed = 0.1; // Speed of the camera revolution
+  // const angle = elapsedTime * speed; // Calculate the angle based on elapsed time
+  
+  // camera.position.x = radius * Math.cos(angle);
+  // camera.position.z = radius * Math.sin(angle);
+  // camera.lookAt(0, 0, 0);
+  if(model){
+    floor.rotation.z = elapsedTime * 0.2
+    model.rotation.y = elapsedTime * 0.2
+  }
    // Look at the center where the car is
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
@@ -326,79 +332,6 @@ document.querySelectorAll('button[data-color]').forEach(button => {
     });
 });
 
-const leftBox1 = document.getElementById('infoone');
-const leftBox2 = document.getElementById('infothree');
-const rightBox1 = document.getElementById('infotwo');
-const rightBox2 = document.getElementById('infofour');
-const leftButton1 = document.getElementById('select1');
-const leftButton2 = document.getElementById('select2');
-const rightButton1 = document.getElementById('select3');
-const rightButton2 = document.getElementById('select4');
-
-let left1Toggled = false;
-let left2Toggled = false;
-let right1Toggled = false;
-let right2Toggled = false;
-
-function closeAllDivs() {
-  gsap.to(leftBox1, { transform: 'translateX(-100%)', duration: 1,ease: "power1.out", });
-  gsap.to(leftBox2, { transform: 'translateX(-100%)', duration: 1,ease: "power1.out", });
-  gsap.to(rightBox1, { transform: 'translateX(100%)', duration: 1,ease: "power1.out", });
-  gsap.to(rightBox2, { transform: 'translateX(100%)', duration: 1,ease: "power1.out", });
-
-  left1Toggled = false;
-  left2Toggled = false;
-  right1Toggled = false;
-  right2Toggled = false;
-}
-
-leftButton1.addEventListener('click', () => {
-  closeAllDivs();
-  left1Toggled = !left1Toggled;
-  gsap.to(leftBox1, { transform: left1Toggled ? 'translateX(0%)' : 'translateX(-100%)', duration: 1,ease: "power1.out", });
-  if (left1Toggled) {
-    setTimeout(() => {
-      gsap.to(leftBox1, { transform: 'translateX(-100%)', duration: 1,ease: "power1.out", });
-      left1Toggled = false;
-    }, 10000);
-  }
-});
-
-leftButton2.addEventListener('click', () => {
-  closeAllDivs();
-  left2Toggled = !left2Toggled;
-  gsap.to(leftBox2, { transform: left2Toggled ? 'translateX(0%)' : 'translateX(-100%)', duration: 1,ease: "power1.out", });
-  if (left2Toggled) {
-    setTimeout(() => {
-      gsap.to(leftBox2, { transform: 'translateX(-100%)', duration: 1,ease: "power1.out", });
-      left2Toggled = false;
-    }, 10000);
-  }
-});
-
-rightButton1.addEventListener('click', () => {
-  closeAllDivs();
-  right1Toggled = !right1Toggled;
-  gsap.to(rightBox1, { transform: right1Toggled ? 'translateX(0%)' : 'translateX(100%)', duration: 1,ease: "power1.out", });
-  if (right1Toggled) {
-    setTimeout(() => {
-      gsap.to(rightBox1, { transform: 'translateX(100%)', duration: 1,ease: "power1.out", });
-      right1Toggled = false;
-    }, 10000);
-  }
-});
-
-rightButton2.addEventListener('click', () => {
-  closeAllDivs();
-  right2Toggled = !right2Toggled;
-  gsap.to(rightBox2, { transform: right2Toggled ? 'translateX(0%)' : 'translateX(100%)', duration: 1,ease: "power1.out", });
-  if (right2Toggled) {
-    setTimeout(() => {
-      gsap.to(rightBox2, { transform: 'translateX(100%)', duration: 1,ease: "power1.out", });
-      right2Toggled = false;
-    }, 10000);
-  }
-});
 
 
 const tl = gsap.timeline({ paused: true, reversed: true });
@@ -423,7 +356,7 @@ const animateOpenNav = () => {
         opacity:0,
         delay:0.7,
         color: "#fff",
-        ease: "power2.inOut", 
+        ease: "expo.out", 
         stagger: { 
             amount: 0.1 
         }, 
@@ -462,74 +395,72 @@ const animateOpenNav = () => {
 
 // openNav();
 
-function iconAnimation(){
-  const { createApp, Events, Utils } = Veloxi
 
-  const MacOsDockPlugin = (context) => {
-  let items
-  let root
-  context.subscribeToEvents((eventBus) => {
-      eventBus.subscribeToEvent(Events.PointerMoveEvent, onMouseMove)
-  })
+const leftBox1 = document.getElementById('infoone');
+const leftBox2 = document.getElementById('infothree');
+const rightBox1 = document.getElementById('infotwo');
+const rightBox2 = document.getElementById('infofour');
+const leftButton1 = document.getElementById('select3');
+const leftButton2 = document.getElementById('select2');
+const rightButton1 = document.getElementById('select1');
+const rightButton2 = document.getElementById('select4');
 
-  function onMouseMove(event) {
-      if (!root.intersects(event.x, event.y)) {
-      items.forEach((item) => {
-          item.size.reset()
-      })
-      return
-      }
-      items.forEach((item) => {
-      const progress = Utils.pointToViewProgress(
-          { x: event.x, y: event.y },
-          item,
-          120
-      )
-      const scale = Utils.remap(progress, 0, 1, 1, 2)
-      item.size.set({ width: 40 * scale, height: 40 * scale })
-      })
-  }
+let left1Toggled = false;
+let left2Toggled = false;
+let right1Toggled = false;
+let right2Toggled = false;
 
-  context.setup(() => {
-      root = context.getView('root')
-      items = context.getViews('item')
-      items.forEach((item) => {
-      item.size.setAnimator('dynamic')
-      item.origin.set({ x: 0.5, y: 1 })
-      })
-  })
-  }
+function closeAllDivs() {
+  gsap.to(leftBox1, { transform: 'translateX(-100%)', duration: 1, ease: "expo.out", });
+  gsap.to(leftBox2, { transform: 'translateX(-100%)', duration: 1, ease: "expo.out", });
+  gsap.to(rightBox1, { transform: 'translateX(100%)', duration: 1, ease: "expo.out", });
+  gsap.to(rightBox2, { transform: 'translateX(100%)', duration: 1, ease: "expo.out", });
 
-  MacOsDockPlugin.pluginName = 'MacOsDock'
-
-  const app = createApp()
-  app.addPlugin(MacOsDockPlugin)
-  app.run()
+  left1Toggled = false;
+  left2Toggled = false;
+  right1Toggled = false;
+  right2Toggled = false;
 }
-iconAnimation()
 
-
-
-let elements = document.querySelectorAll(".rolling-text");
-elements.forEach((element) => {
-  let innerText = element.innerText;
-  element.innerHTML = "";
-  let textContainer= document.createElement("div");
-  textContainer.classList.add("block");
-  for(let letter of innerText){
-      let span = document.createElement("span");
-      span. innerText = letter.trim() === "" ? "\xa0": letter;
-      span.classList.add("letter");
-      textContainer.appendChild(span);
+function toggleBox(box, toggled, direction, toggleStateSetter) {
+  gsap.to(box, { transform: toggled ? 'translateX(0%)' : `translateX(${direction})`, duration: 1, ease: "expo.out", });
+  if (toggled) {
+    setTimeout(() => {
+      gsap.to(box, { transform: `translateX(${direction})`, duration: 1, ease: "expo.out", });
+      toggleStateSetter(false);
+    }, 10000);
   }
-  element.appendChild(textContainer);
-  element.appendChild(textContainer.cloneNode(true));
+}
+
+leftButton1.addEventListener('click', () => {
+  const wasToggled = left1Toggled;
+  closeAllDivs();
+  left1Toggled = !wasToggled;
+  toggleBox(leftBox1, left1Toggled, '-100%', (state) => left1Toggled = state);
 });
-elements.forEach((element) => {
-  element.addEventListener("mouseover", () => {
-      element.classList.remove("play");
-  });
+
+leftButton2.addEventListener('click', () => {
+  const wasToggled = left2Toggled;
+  closeAllDivs();
+  left2Toggled = !wasToggled;
+  toggleBox(leftBox2, left2Toggled, '-100%', (state) => left2Toggled = state);
 });
+
+rightButton1.addEventListener('click', () => {
+  const wasToggled = right1Toggled;
+  closeAllDivs();
+  right1Toggled = !wasToggled;
+  toggleBox(rightBox1, right1Toggled, '100%', (state) => right1Toggled = state);
+});
+
+rightButton2.addEventListener('click', () => {
+  const wasToggled = right2Toggled;
+  closeAllDivs();
+  right2Toggled = !wasToggled;
+  toggleBox(rightBox2, right2Toggled, '100%', (state) => right2Toggled = state);
+});
+
+
 
 
 

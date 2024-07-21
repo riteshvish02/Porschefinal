@@ -410,12 +410,12 @@ canvas{
     z-index: 9!important;
 }
 #animation #infoone{
-    width:50vh ;
+    width:60vh ;
     height: 100vh;
     background-color:rgba(0, 0, 0, 0.886);
     color: #fff;
     padding-left: 2%;
-
+    
     padding-right:3%;
     padding-top: 5%;
     text-align: right;
@@ -457,6 +457,7 @@ canvas{
 #logos{
     display: flex;
     gap: 4%;
+    justify-content: flex-end;
     margin-top: 5%;
 }
 #logos #part{
@@ -783,6 +784,98 @@ canvas{
     font-size: 2vh;
     font-family: por2;
 }
+
+#animation #infosix{
+  width:60vh ;
+  height: 100vh;
+  background-color:rgba(0, 0, 0, 0.886);
+  color: #fff;
+  padding-left: 2%;
+  position: absolute;
+  left: 0!important;
+  transform: translateX(-100%);
+  padding-right:3%;
+  padding-top: 5%;
+}
+#animation #infosix video{
+  width: 90%;
+  height: 22vh;
+  object-fit: cover;
+  object-position: center;
+}
+#animation #infosix h1{
+  font-size: 5.2vh;
+  font-family: por3;
+}
+
+#animation #infosix #text1{
+  border-bottom: 2px solid #888;
+  padding: 2%;
+}
+#animation #infosix #text{
+  border-bottom: 2px solid #888;
+  padding: 2%;
+}
+#animation #infosix #image{
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  padding: 2%;
+  gap: 3%;
+}
+#animation #infosix #image img{
+  height: 12vh;
+  width: 12vh;
+  object-fit: cover;
+  object-position: center;
+}
+#animation #infosix p{
+  font-size: 2vh;
+  font-family: por2;
+}
+#animation #infofive{
+  width:60vh ;
+  height: 100vh;
+  position: absolute;
+  background-color:rgba(0, 0, 0, 0.886);
+  color: #fff;
+  padding-left: 2%;
+  padding-right:3%;
+  transform: translateX(100%);
+  right: 0;
+  padding-top: 5%;
+}
+#animation #infofive h1{
+  font-size: 5.2vh;
+  font-family: por3;
+}
+
+#animation #infofive #text1{
+  border-bottom: 2px solid #888;
+  padding: 2%;
+}
+#animation #infofive #text{
+  border-bottom: 2px solid #888;
+  padding: 2%;
+}
+#animation #infofive #image{
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  padding: 2%;
+  gap: 3%;
+}
+#animation #infofive #image img{
+  height: 15vh;
+  width: 15vh;
+  object-fit: cover;
+  object-position: center;
+}
+#animation #infofive p{
+  font-size: 2vh;
+  font-family: por2;
+}
+
 .webgl
 {
    width: 100%;
