@@ -31,66 +31,66 @@ function inet(){
 
     const loadingManager = new THREE.LoadingManager(
        // Loaded
-    () =>
-      {
-          // Wait a little
-          window.setTimeout(() =>
-              {
-                console.log("loaded");
-              var tl1 = gsap.timeline()
-              tl1
-              .to('#loading #elem',{
-                clipPath:` polygon(0 0, 0% 0, 0% 100%, 0% 100%)`,
-                duration:1.2,
-                ease: "power4.out",
-              },"var")
-              .to('#loading', {
-                 display: 'none',
-                 delay:0.2,
-                },"var")
+    // () =>
+    //   {
+    //       // Wait a little
+    //       window.setTimeout(() =>
+    //           {
+    //             console.log("loaded");
+    //           var tl1 = gsap.timeline()
+    //           tl1
+    //           .to('#loading #elem',{
+    //             clipPath:` polygon(0 0, 0% 0, 0% 100%, 0% 100%)`,
+    //             duration:1.2,
+    //             ease: "power4.out",
+    //           },"var")
+    //           .to('#loading', {
+    //              display: 'none',
+    //              delay:0.2,
+    //             },"var")
              
-              //   .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
-              //     transform: "translateY(0)",
-              //     duration:1.5,
-              //     ease: "power1.out",
-              //   },"var2")
-              //   .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
-              //     transform: "translateY(0)",
-              //     delay:0.2,
-              //     duration:1.5,
-              //     ease: "power1.out",
-              //   },"var2")
-              //   .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
-              //     transform: "translateY(0)",
-              //     delay:0.3,
-              //     duration:1.5,
-              //     ease: "power1.out",
-              //   },"var2")
-              //   .to("#navcenter img:nth-child(4)",{
-              //     transform: "translateY(0)",
-              //     delay:0.4,
-              //     duration:1.5,
-              //     ease: "power1.out",
-              //   },"var2")
-              // Animate overlay
+    //           //   .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
+    //           //     transform: "translateY(0)",
+    //           //     duration:1.5,
+    //           //     ease: "power1.out",
+    //           //   },"var2")
+    //           //   .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
+    //           //     transform: "translateY(0)",
+    //           //     delay:0.2,
+    //           //     duration:1.5,
+    //           //     ease: "power1.out",
+    //           //   },"var2")
+    //           //   .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
+    //           //     transform: "translateY(0)",
+    //           //     delay:0.3,
+    //           //     duration:1.5,
+    //           //     ease: "power1.out",
+    //           //   },"var2")
+    //           //   .to("#navcenter img:nth-child(4)",{
+    //           //     transform: "translateY(0)",
+    //           //     delay:0.4,
+    //           //     duration:1.5,
+    //           //     ease: "power1.out",
+    //           //   },"var2")
+    //           // Animate overlay
   
-          }, 1000)
+    //       }, 1000)
   
         
-      },
+    //   },
   
-      // Progress
-      (itemUrl, itemsLoaded, itemsTotal) =>
-      {
+    //   // Progress
+    //   (itemUrl, itemsLoaded, itemsTotal) =>
+    //   {
   
-          // Calculate the progress and update the loadingBarElement
-          // const progressRatio = itemsLoaded / totalItems;
-          // const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
-          // // console.log(progressRatio, progressPercentage.toFixed());
+    //       // Calculate the progress and update the loadingBarElement
+    //       // const progressRatio = itemsLoaded / totalItems;
+    //       // const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
+    //       // // console.log(progressRatio, progressPercentage.toFixed());
       
-          // loadingBarElement.style.transform = `scaleX(${progressRatio})`;
-          //  loadingBarElementh2.textContent = progressPercentage + "%"
-      }
+    //       // loadingBarElement.style.transform = `scaleX(${progressRatio})`;
+    //       //  loadingBarElementh2.textContent = progressPercentage + "%"
+    //   }
   )
 // Texture loading
 const textureLoader = new THREE.TextureLoader(loadingManager);
@@ -98,12 +98,12 @@ const floorterrain = textureLoader.load('/textures/terrain-normal.jpg');
 const floorrough = textureLoader.load('/textures/terrain-roughness.jpg');
 const cubetexture = new THREE.CubeTextureLoader(loadingManager);
 const env = cubetexture.load([
-    '/textures/environmentMaps/1/px.jpg',
-    '/textures/environmentMaps/1/nx.jpg',
-    '/textures/environmentMaps/1/py.jpg',
-    '/textures/environmentMaps/1/ny.jpg',
-    '/textures/environmentMaps/1/pz.jpg',
-    '/textures/environmentMaps/1/nz.jpg',
+    '/textures/environmentMaps/0/px.jpg',
+    '/textures/environmentMaps/0/nx.jpg',
+    '/textures/environmentMaps/0/py.jpg',
+    '/textures/environmentMaps/0/ny.jpg',
+    '/textures/environmentMaps/0/pz.jpg',
+    '/textures/environmentMaps/0/nz.jpg',
 ]);
 
 // GLTF and DRACO loading
@@ -146,8 +146,8 @@ scene.fog = fog
 // });
 
 // Lighting
-const directionlight = new THREE.DirectionalLight('#ffffff',15  )
-directionlight.position.set(-5.763,40,-2.25)
+const directionlight = new THREE.DirectionalLight('#ffffff',3 )
+directionlight.position.set(-5.763,90,-2.25)
 scene.add(directionlight)
 
 directionlight.castShadow = true;
@@ -204,25 +204,25 @@ let model;
 // Load model
 let carPaintMesh = null;
 let tyreMeshes = [];
-gltfLoader.load('/models/scene.glb', (gltf) => {
+// gltfLoader.load('/models/scene.glb', (gltf) => {
   
-  model = gltf.scene
-    // console.log(model);
-    model.scale.set(25, 25, 25);
-    model.position.set(0, 0, 0);
-    model.rotation.y = Math.PI / 2;
-    scene.add(model);
-    adjustModelForScreen()
-//     // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
-//     // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
-//     // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
-//     // gui.add(model.position, 'z').min(0).max(100).step(0.001).name('Rotation');
-//     // gui.add(model.scale, 'x').min(0).max(100).step(0.001).name('Rotation');
-//     // gui.add(model.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
-//     // gui.add(model.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
+//   model = gltf.scene
+//     // console.log(model);
+//     model.scale.set(25, 25, 25);
+//     model.position.set(0, 0, 0);
+//     model.rotation.y = Math.PI / 2;
+//     scene.add(model);
+//     adjustModelForScreen()
+// //     // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
+// //     // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
+// //     // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
+// //     // gui.add(model.position, 'z').min(0).max(100).step(0.001).name('Rotation');
+// //     // gui.add(model.scale, 'x').min(0).max(100).step(0.001).name('Rotation');
+// //     // gui.add(model.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
+// //     // gui.add(model.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
    
-    updateMaterial();
-});
+//     updateMaterial();
+// });
 
 
 function adjustModelForScreen() {
@@ -325,10 +325,23 @@ window.addEventListener('resize', () => {
     adjustModelForScreen()
 });
 
+const colors = ['#FFCC00', '#CC0033', 'black', '#A4C4B8', '#00194B', '#333333','red'];
+let currentColorIndex = 0;
+
+function autoChangeColor() {
+    if (carPaintMesh) {
+        currentColorIndex = (currentColorIndex + 1) % colors.length;
+        carPaintMesh.material.color.set(colors[currentColorIndex]);
+    }
+}
+
+setInterval(autoChangeColor, 10000);
+
 // Color change buttons
 document.querySelectorAll('button[data-color]').forEach(button => {
     button.addEventListener('click', () => {
         changeCarPaintColor(button.getAttribute('data-color'));
+        clearInterval(autoChangeColor);
     });
 });
 
@@ -400,26 +413,31 @@ const leftBox1 = document.getElementById('infoone');
 const leftBox2 = document.getElementById('infothree');
 const rightBox1 = document.getElementById('infotwo');
 const rightBox2 = document.getElementById('infofour');
+const leftBox3 = document.getElementById('infofive');
 const leftButton1 = document.getElementById('select3');
 const leftButton2 = document.getElementById('select2');
 const rightButton1 = document.getElementById('select1');
 const rightButton2 = document.getElementById('select4');
+const leftButton3 = document.getElementById('select5');
 
 let left1Toggled = false;
 let left2Toggled = false;
 let right1Toggled = false;
 let right2Toggled = false;
+let left3Toggled = false; // Toggle state for the fifth div
 
 function closeAllDivs() {
   gsap.to(leftBox1, { transform: 'translateX(-100%)', duration: 1, ease: "expo.out", });
   gsap.to(leftBox2, { transform: 'translateX(-100%)', duration: 1, ease: "expo.out", });
   gsap.to(rightBox1, { transform: 'translateX(100%)', duration: 1, ease: "expo.out", });
   gsap.to(rightBox2, { transform: 'translateX(100%)', duration: 1, ease: "expo.out", });
+  gsap.to(leftBox3, { transform: 'translateX(-100%)', duration: 1, ease: "expo.out", }); // Close the fifth div
 
   left1Toggled = false;
   left2Toggled = false;
   right1Toggled = false;
   right2Toggled = false;
+  left3Toggled = false; // Reset the toggle state for the fifth div
 }
 
 function toggleBox(box, toggled, direction, toggleStateSetter) {
@@ -460,8 +478,12 @@ rightButton2.addEventListener('click', () => {
   toggleBox(rightBox2, right2Toggled, '100%', (state) => right2Toggled = state);
 });
 
-
-
+leftButton3.addEventListener('click', () => {
+  const wasToggled = left3Toggled;
+  closeAllDivs();
+  left3Toggled = !wasToggled;
+  toggleBox(leftBox3, left3Toggled, '-100%', (state) => left3Toggled = state);
+});
 
 
 function aniInit() {
