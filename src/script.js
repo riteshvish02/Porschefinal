@@ -31,66 +31,66 @@ function inet(){
 
     const loadingManager = new THREE.LoadingManager(
        // Loaded
-    // () =>
-    //   {
-    //       // Wait a little
-    //       window.setTimeout(() =>
-    //           {
-    //             console.log("loaded");
-    //           var tl1 = gsap.timeline()
-    //           tl1
-    //           .to('#loading #elem',{
-    //             clipPath:` polygon(0 0, 0% 0, 0% 100%, 0% 100%)`,
-    //             duration:1.2,
-    //             ease: "power4.out",
-    //           },"var")
-    //           .to('#loading', {
-    //              display: 'none',
-    //              delay:0.2,
-    //             },"var")
+    () =>
+      {
+          // Wait a little
+          window.setTimeout(() =>
+              {
+                console.log("loaded");
+              var tl1 = gsap.timeline()
+              tl1
+              .to('#loading #elem',{
+                clipPath:` polygon(0 0, 0% 0, 0% 100%, 0% 100%)`,
+                duration:1.2,
+                ease: "power4.out",
+              },"var")
+              .to('#loading', {
+                 display: 'none',
+                 delay:0.2,
+                },"var")
              
-    //           //   .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
-    //           //     transform: "translateY(0)",
-    //           //     duration:1.5,
-    //           //     ease: "power1.out",
-    //           //   },"var2")
-    //           //   .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
-    //           //     transform: "translateY(0)",
-    //           //     delay:0.2,
-    //           //     duration:1.5,
-    //           //     ease: "power1.out",
-    //           //   },"var2")
-    //           //   .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
-    //           //     transform: "translateY(0)",
-    //           //     delay:0.3,
-    //           //     duration:1.5,
-    //           //     ease: "power1.out",
-    //           //   },"var2")
-    //           //   .to("#navcenter img:nth-child(4)",{
-    //           //     transform: "translateY(0)",
-    //           //     delay:0.4,
-    //           //     duration:1.5,
-    //           //     ease: "power1.out",
-    //           //   },"var2")
-    //           // Animate overlay
+                .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
+                  transform: "translateY(0)",
+                  duration:1,
+                  ease: "power1.out",
+                },"var2")
+                .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
+                  transform: "translateY(0)",
+                  delay:0.2,
+                  duration:1,
+                  ease: "power1.out",
+                },"var2")
+                .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
+                  transform: "translateY(0)",
+                  delay:0.3,
+                  duration:1,
+                  ease: "power1.out",
+                },"var2")
+                .to("#navcenter img:nth-child(4)",{
+                  transform: "translateY(0)",
+                  delay:0.4,
+                  duration:1,
+                  ease: "power1.out",
+                },"var2")
+              // Animate overlay
   
-    //       }, 1000)
+          }, 1000)
   
         
-    //   },
+      },
   
-    //   // Progress
-    //   (itemUrl, itemsLoaded, itemsTotal) =>
-    //   {
+      // Progress
+      (itemUrl, itemsLoaded, itemsTotal) =>
+      {
   
-    //       // Calculate the progress and update the loadingBarElement
-    //       // const progressRatio = itemsLoaded / totalItems;
-    //       // const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
-    //       // // console.log(progressRatio, progressPercentage.toFixed());
+          // Calculate the progress and update the loadingBarElement
+          // const progressRatio = itemsLoaded / totalItems;
+          // const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
+          // // console.log(progressRatio, progressPercentage.toFixed());
       
-    //       // loadingBarElement.style.transform = `scaleX(${progressRatio})`;
-    //       //  loadingBarElementh2.textContent = progressPercentage + "%"
-    //   }
+          // loadingBarElement.style.transform = `scaleX(${progressRatio})`;
+          //  loadingBarElementh2.textContent = progressPercentage + "%"
+      }
   )
 // Texture loading
 const textureLoader = new THREE.TextureLoader(loadingManager);
@@ -204,25 +204,25 @@ let model;
 // Load model
 let carPaintMesh = null;
 let tyreMeshes = [];
-// gltfLoader.load('/models/scene.glb', (gltf) => {
+gltfLoader.load('/models/scene.glb', (gltf) => {
   
-//   model = gltf.scene
-//     // console.log(model);
-//     model.scale.set(25, 25, 25);
-//     model.position.set(0, 0, 0);
-//     model.rotation.y = Math.PI / 2;
-//     scene.add(model);
-//     adjustModelForScreen()
-// //     // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
-// //     // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
-// //     // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
-// //     // gui.add(model.position, 'z').min(0).max(100).step(0.001).name('Rotation');
-// //     // gui.add(model.scale, 'x').min(0).max(100).step(0.001).name('Rotation');
-// //     // gui.add(model.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
-// //     // gui.add(model.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
+  model = gltf.scene
+    // console.log(model);
+    model.scale.set(25, 25, 25);
+    model.position.set(0, 0, 0);
+    model.rotation.y = Math.PI / 2;
+    scene.add(model);
+    adjustModelForScreen()
+//     // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
+//     // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.position, 'z').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.scale, 'x').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
+//     // gui.add(model.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
    
-//     updateMaterial();
-// });
+    updateMaterial();
+});
 
 
 function adjustModelForScreen() {
@@ -748,3 +748,203 @@ if(!isMobile) {
     page1()
 }
 
+const openBtn = document.querySelector('.open-btn');
+const closeBtn = document.querySelector('.close-btn');
+const menuOverlay2 = document.querySelector('.menu-overlay2');
+const menuOverlay = document.querySelector('.menu-overlay');
+const menu = document.querySelector('.menu');
+
+// GSAP timeline for opening the menu
+const openTl = gsap.timeline({ paused: true });
+
+openTl
+    .to(menuOverlay, {
+        left: '0vw',
+        duration: 0.3,
+        ease: 'power2.out'
+    }, 'a')
+    .to(menuOverlay2, {
+        left: '0vw',
+        duration: 0.3,
+        ease: 'power2.out',
+        delay: 0.2
+    }, 'a');
+
+const closeTl = gsap.timeline({ paused: true });
+
+closeTl
+    .to(menuOverlay2, {
+        left: '-100vw',
+        duration: 0.3,
+        ease: 'power2.in'
+    }, 'b')
+    .to(menuOverlay, {
+        left: '-100vw',
+        duration: 0.3,
+        ease: 'power2.in',
+        delay: 0.2
+    }, 'b');
+
+openBtn.addEventListener('click', () => {
+    openTl.restart(); // Restart the animation when clicking the open button
+});
+
+closeBtn.addEventListener('click', () => {
+    closeTl.restart(); // Restart the animation when clicking the close button
+});
+
+document.querySelectorAll('.menu-con-1 h3').forEach(item => {
+    item.addEventListener('click', async () => {
+        const target = item.getAttribute('data-target');
+        await showContent(target);
+        document.querySelectorAll('.menu-con-1 h3').forEach(el => el.classList.remove('active'));
+        item.classList.add('active');
+    });
+});
+
+async function fetchContent(target) {
+    return new Promise(resolve => {
+        let content = '';
+        if (target === 'models') {
+            content = `
+                <img src="https://nav.porsche.com/00BC524/series-assets/1360/718.webp" alt="Model 1">
+                <img src="https://nav.porsche.com/00BC524/series-assets/1360/911.webp" alt="Model 2">
+                <img src="https://nav.porsche.com/00BC524/series-assets/1360/taycan.webp" alt="Model 3">
+                <img src="https://nav.porsche.com/00BC524/series-assets/1360/panamera.webp" alt="Model 4">
+                <img src="https://nav.porsche.com/00BC524/series-assets/1360/macan.webp" alt="Model 5">
+            `;
+        } else if (target === 'vehicle-purchase') {
+            content = `
+                <h4 style="margin-top:-18vw; width:6vw;">Configure</h4>
+                <h4 style="width:10vw;">Compare Models</h4>
+                <h4 style="width:18.9vw;">Find New and Pre-owned Vehicles</h4>
+                <h4 style="width:16vw;">E-Mobility & E-Performance</h4>
+            `;
+        } else if (target === 'services') {
+            content = `
+                <h4 style="margin-top:-12vw; width:9.7vw;">Factory Delivery</h4>
+                <h4 style="width:20.5vw;">Tequipment - Genuine Accessories</h4>
+                <h4 style="width:23.5vw;">Exclusive Manufaktur - Individual Vehicles</h4>
+                <h4 style="width:23vw;">Approved - Pre-owned Cars & Warranty</h4>
+                <h4 style="width:13vw;">Service & Maintenance</h4>
+                <h4 style="width:13.7vw;">Classic - Service & Parts</h4>
+                <h4 style="width:18.7vw;">Lifestyle - Fashion & Accessories</h4>
+            `;
+        } else if (target === 'dealers') {
+            content = `
+                <h4 style="margin-top:-14vw; width:7.2vw;">Ahemdabad</h4>
+                <h4 style="width:6vw;">Banglore</h4>
+                <h4 style="width:7.2vw;">Chandigarh</h4>
+                <h4 style="width:5.7vw;">Chennai</h4>
+                <h4 style="width:5.2vw;">Gurgaon</h4>
+                <h4 style="width:6vw;">New Delhi</h4>
+                <h4 style="width:5vw;">Mumbai</h4>
+            `;
+        } else if (target === 'experience') {
+            content = `
+                <h4 style="margin-top:-15vw; width:7vw">Motorsport</h4>
+                <h4 style="width:18vw;">Porsche Experience – Driving & Track Experiences</h4>
+                <h4 style="width:8vw;">Porsche clubs</h4>
+                <h4 style="width:2.7vw;">Golf</h4>
+                <h4 style="width:18vw;">Christophorus – The Porsche Magazine</h4>
+                <h4 style="width:10vw;">Porsche Museum</h4>
+            `;
+        }
+        resolve(content);
+    });
+}
+
+async function showContent(target) {
+    const contentDiv = document.querySelector('.menu-con-2');
+    const existingContent = contentDiv.querySelector('.content');
+
+    const newContentHTML = await fetchContent(target);
+
+    if (existingContent) {
+        existingContent.classList.add('exiting');
+
+        existingContent.addEventListener('transitionend', () => {
+            existingContent.remove();
+        }, { once: true });
+
+        const newContent = document.createElement('div');
+        newContent.classList.add('content');
+        newContent.innerHTML = newContentHTML;
+
+        contentDiv.appendChild(newContent);
+
+        requestAnimationFrame(() => {
+            newContent.classList.add('active');
+        });
+    } else {
+        const newContent = document.createElement('div');
+        newContent.classList.add('content');
+        newContent.innerHTML = newContentHTML;
+        contentDiv.appendChild(newContent);
+
+        requestAnimationFrame(() => {
+            newContent.classList.add('active');
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    showContent('models');
+    document.querySelector('.menu-con-1 h3[data-target="models"]').classList.add('active');
+});
+
+function menuu(){
+    var flag = 0;
+    var ans = document.querySelectorAll("#menn")
+    ans.forEach((elem)=>{
+        elem.addEventListener("click",function(){
+            if(flag === 0){
+            var tl = gsap.timeline()
+            tl
+            .to(".line",{
+                position:"absolute",
+                duration:1
+            })
+            .to("#l1",{
+                position:"relative",
+                transform:" rotate(45deg)  translateY(0px) translateX(4px)",
+                marginLeft: "-5px"
+            },"a")
+            .to("#l3",{
+                position:"relative",
+                transform:" rotate(-45deg)  translateX(2px)",
+                marginLeft: "-5px"
+            },"a")
+            .to("#l2",{
+                opacity:0
+            },"a")
+           
+            flag =1 
+        }
+        else{
+            var tl = gsap.timeline()
+    
+            tl
+            .to("#l1",{
+                position:"relative",
+                transform:" rotate(0deg)  translateY(0px) translateX(0px)",
+                marginLeft: "0px"
+            },"a")
+            .to("#l3",{
+                position:"relative",
+                transform:" rotate(0deg)  translateX(0px)",
+                marginLeft: "0px"
+            },"a")
+            .to("#l2",{
+                opacity:1,
+                position:"relative"
+            },"a")
+           
+            flag = 0
+        }
+    
+        })
+    })
+    
+}
+menuu()
