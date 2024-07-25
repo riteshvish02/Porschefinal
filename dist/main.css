@@ -75,7 +75,7 @@ body
 
 .page3 .text-content2 {
     width: 100%!important;
-    height: 40vh!important;
+    height: 20vh!important;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex!important;
@@ -436,6 +436,7 @@ body
   .rolling-text{
 font-size: 2vh!important;
 margin-top: -.1vh!important;
+height: 3vh!important;
 overflow: hidden!important;
   }
   .child-item-text{
@@ -851,11 +852,14 @@ display: none!important;
   font-size: 4vw!important;
 }
 footer .rolling-text{
-  height: 3vh!important;
+  height: 4vh!important;
   font-size: 5vw!important;
   width: 100vw!important;
 
   margin-top: 10vw!important;
+}
+#page2{
+  display: none!important;
 }
 .rolling-text h3{
   font-size: 2vh!important;
@@ -988,7 +992,7 @@ a.effect-underline{
  
 }
 #loading #elem:nth-child(3) #bar #progress{
-  width: 10%;
+  width: 0%;
   height: 100%;
   background-color: #888;
   border-radius: 25px;
