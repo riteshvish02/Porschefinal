@@ -204,25 +204,25 @@ let model;
 // Load model
 let carPaintMesh = null;
 let tyreMeshes = [];
-gltfLoader.load('/models/scene.glb', (gltf) => {
+// gltfLoader.load('/models/scene.glb', (gltf) => {
   
-  model = gltf.scene
-    // console.log(model);
-    model.scale.set(25, 25, 25);
-    model.position.set(0, 0, 0);
-    model.rotation.y = Math.PI / 2;
-    scene.add(model);
-    adjustModelForScreen()
-//     // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
-//     // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
-//     // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
-//     // gui.add(model.position, 'z').min(0).max(100).step(0.001).name('Rotation');
-//     // gui.add(model.scale, 'x').min(0).max(100).step(0.001).name('Rotation');
-//     // gui.add(model.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
-//     // gui.add(model.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
+//   model = gltf.scene
+//     // console.log(model);
+//     model.scale.set(25, 25, 25);
+//     model.position.set(0, 0, 0);
+//     model.rotation.y = Math.PI / 2;
+//     scene.add(model);
+//     adjustModelForScreen()
+// //     // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
+// //     // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
+// //     // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
+// //     // gui.add(model.position, 'z').min(0).max(100).step(0.001).name('Rotation');
+// //     // gui.add(model.scale, 'x').min(0).max(100).step(0.001).name('Rotation');
+// //     // gui.add(model.scale, 'y').min(0).max(100).step(0.001).name('Rotation');
+// //     // gui.add(model.scale, 'z').min(0).max(100).step(0.001).name('Rotation');
    
-    updateMaterial();
-});
+//     updateMaterial();
+// });
 
 
 function adjustModelForScreen() {
@@ -645,7 +645,7 @@ document.querySelectorAll("#page3 #left #child").forEach((child) => {
         });
     
         function files(index) {
-            return `/canvaspage-imgs/canvaspage-imgs/${String(index).padStart(4, '0')}.jpg`;
+            return `/finalcanva//scene${String(index).padStart(5, '0')}.png`;
         }
     
         const frameCount = 100; // Changed to 100 to match your requirement

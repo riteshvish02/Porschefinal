@@ -1938,9 +1938,10 @@ h2.effect-shine:hover {
 
 .page4 {
   width: 100%;
-  min-height: 110vh;
+  min-height: 150vh;
   padding-top: 5vw;
-  background-color: #000000;
+  /* background-color: #000000; */
+  /* background-color: red; */
 }
 
 .page4 .cards {
@@ -2101,7 +2102,7 @@ h2.effect-shine:hover {
 footer {
   background-color: #000;
   padding: 20px;
-  height: 100vh;
+  height: 80vh;
   width: 100%;
 }
 
