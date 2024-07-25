@@ -632,7 +632,7 @@ document.querySelectorAll("#page3 #left #child").forEach((child) => {
 
 
     function canva() {
-        const canvas = document.querySelector("#page4>canvas");
+        const canvas = document.querySelector("#page5>canvas");
         const context = canvas.getContext("2d");
     
         canvas.width = window.innerWidth;
@@ -671,7 +671,7 @@ document.querySelectorAll("#page3 #left #child").forEach((child) => {
         images[0].onload = () => {
             gsap.timeline({
                 scrollTrigger: {
-                    trigger: "#page4",
+                    trigger: "#page5",
                     start: "top top",
                     pin: true,
                     scroller: "#main",
