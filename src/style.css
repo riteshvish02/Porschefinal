@@ -30,6 +30,44 @@ body
     src: url("../static/fonts/porsche-next-w-la-semi-bold.min.b5f6fca7225aa73578f65320bcf79b45\ \(1\).ttf");
 }
 @media (max-width:600px) {
+  .menu-overlay,.menu-overlay2{
+    width: 100%;
+  }
+  .menu-overlay,
+ .menu-overlay2 {
+  position:absolute!important; /* Changed from absolute to fixed for full-screen overlays */
+  top: 0!important;
+  left: -100vw!important;
+  width: 65vw!important;
+  display: flex!important;
+  height: 100vh!important;
+  background-color: #141414 !important;
+  z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999!important; /* Ensure overlays stack correctly */
+}
+  .menu-con-1{
+    width: 100%!important;
+    padding-top: 20vw!important;
+    padding-left: 10vw!important;
+  }
+  .menu-con-1 h3{
+    font-size: 7.5vw!important;
+    /* margin-top: 5vw; */
+  }
+  .menu-con-2{
+    display: none!important;
+  }
+  .close-btn{
+    top: 6vw!important;
+    right: 7vw!important;
+  }
+  .menu-con-1 h3.active {
+    background-color: transparent!important;
+  }
+  
+  .menu-con-1 h3:hover {
+    background-color:transparent!important;
+    transform: scale(1.1)!important;
+  }
   .page3 {
     width: 100%!important;
     min-height: 150vh!important;
@@ -760,6 +798,7 @@ object-fit: center!important;
     gap: 2%;
     z-index: 999999999999999999999999999999999999999999999999999999999!important;
 }
+
 #loading #elem{
     width: 35vw!important;
 }
@@ -774,6 +813,121 @@ display: none!important;
 #loading #elem:nth-child(5){
     display: none!important;
     }
+    .footer-content {
+      margin-left: auto!important;
+      margin-right: auto!important;
+      max-width: 1230px!important;
+      padding: 40px 15px 450px!important;
+      position: relative!important;
+  }
+
+  .footer-wave-svg {
+      height: 50px!important;
+  }
+
+  .footer-content-column {
+      width: 24.99%!important;
+  }
+  
+  .frequent{
+    height: 4vh!important;
+  }
+  .frequent h1{
+    transition: all ease 0.5s;
+    font-size: 5vw !important;
+  }
+  .frequent:hover h1{
+    transform:  translateY(-150%)!important;
+  }
+ 
+  .footer-container {
+    display: flex!important;
+    flex-direction: column!important;
+    margin-left: -10vw!important;
+  }
+.footer-container p {
+  /* margin-bottom: 20px; */
+  cursor: pointer!important;
+  font-size: 4vw!important;
+}
+footer .rolling-text{
+  height: 3vh!important;
+  font-size: 5vw!important;
+  width: 100vw!important;
+
+  margin-top: 10vw!important;
+}
+.rolling-text h3{
+  font-size: 2vh!important;
+}
+footer .rolling-text h4{
+  font-size: 2vh!important;
+  padding-bottom: 2%;
+}
+footer .column .rolling-text{
+  margin-bottom: 5vw!important;
+}
+footer .btn button{
+  border-radius: 5px!important;
+  height: 3.5vh!important;
+  margin-top: -2vw!important;
+}
+footer .btn button>h3{
+  font-size: 3vw!important;
+}
+.macos-dock {
+  height: 25px!important;
+  margin-top: -2vw!important;
+  align-items: center!important;
+  padding-left: 0!important;
+}
+
+footer .items {
+  gap: 0!important;
+  margin-top: -3vw!important;
+}
+
+footer .item {
+  scale: 0.75!important;
+}
+footer .item img{
+  height: 3.5vh!important;
+}
+.footer-links{
+  margin-top: -9vw!important;
+  margin-left: -10vw!important;
+  flex-direction: column!important;
+  gap: 6vw!important;
+  height: 50vh!important;
+  width: 100vw!important;
+  background: color #111 !important;;
+}
+a.effect-underline{
+  width: 60vw !important;
+}
+.footer-logo{
+  height: 22vh!important;
+  margin-top: 0vw!important;
+  margin-left: -5vw!important;
+  background-color: #111!important;
+  position: relative!important;
+}
+.footer-logo p{
+  font-size: 3.2vw!important;
+  font-weight: 100!important;
+  width: 75vw!important;
+  position: absolute!important;
+  text-align: center!important;
+  top: 10vw!important;
+}
+.footer-logo svg{
+  height: 2vh!important;
+  fill: #fff !important;;
+  margin-top: -48vw!important;
+}
+#loading{
+  display: none!important;
+}
 }
 
 
@@ -781,14 +935,13 @@ display: none!important;
     position: relative;
 }
 #loading{
-    position: fixed !important;
+    position: fixed!important;
     left: 0%!important;
-    top: 0!important;
-    background-color:transparent;
+    top: 0%!important;
     width: 100vw;
     display: flex;
     height: 100vh;
-    z-index: 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999!important;
+    z-index: 99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999!important;
 }
 #loading #elem{
     width: 20vw;
@@ -805,13 +958,40 @@ display: none!important;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color:#333; */
 }
-#loading #elem:nth-child(3) img{
-    width: 25vh;
-    height: 25vh;
+#loading #elem:nth-child(3) video{
+    width: 20vh;
+    height: 20vh;
+    overflow: visible;
     object-fit: cover;
     object-position: center;
+}
+#loading #elem:nth-child(3) #dib{
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+ bottom: 28%;
+}
+#loading #elem:nth-child(3) #dib h2{
+  font-size: 2vh;
+  font-family: por1;
+  color: #fff;
+  float: right;
+}
+#loading #elem:nth-child(3) #bar{
+  width: 20vw;
+  height: 6px;
+  border-radius: 25px;
+  background-color: #fff;
+ 
+}
+#loading #elem:nth-child(3) #bar #progress{
+  width: 10%;
+  height: 100%;
+  background-color: #888;
+  border-radius: 25px;
 }
 #animation{
     width: 100%;
@@ -990,8 +1170,9 @@ canvas{
     background: 
     linear-gradient(to bottom, transparent 0%, rgba(33, 33, 33, 0.18) 50%, transparent 100%), 
     linear-gradient(to right, transparent 0%, rgba(164, 163, 163, 0.04) 50%, transparent 100%);
-
+    display: none;
 }
+
 #navcenter{
     width:55vh!important;
     height: fit-content;
@@ -1055,7 +1236,27 @@ canvas{
      cursor: pointer;
     gap: 3%;
     z-index: 999999999999999999999999999999999999999999999999999999999!important;
+    display: none;
 }
+#page5 #canvaover{
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999999999999999999999999999999999999999!important;
+}
+#page5 #featured{
+  position: absolute;
+  left: 50%;
+  top: 15%;
+  font-family: 'nike';
+  transform: translateX(-50%);
+  text-transform: uppercase;
+  font-size: 10vh;
+ }
+
 #selector #color{
     width: 50vh;
     height: 8vh;
@@ -1570,7 +1771,7 @@ h2.effect-shine:hover {
 }
 
 .rolling-text {
-  height: 5vh;
+  height: 4vh;
   overflow: hidden;
   font-size: 1.2vw;
   font-weight: 600;
@@ -1935,10 +2136,9 @@ h2.effect-shine:hover {
 
 .page4 {
   width: 100%;
-  min-height: 150vh;
+  min-height: 110vh;
   padding-top: 5vw;
-  /* background-color: #000000; */
-  /* background-color: red; */
+ 
 }
 
 .page4 .cards {
@@ -2079,6 +2279,7 @@ h2.effect-shine:hover {
 #page5{
   width: 100%;
   height: 100vh;
+  position: relative;
 }
 
 #page5 canvas{
@@ -2437,4 +2638,3 @@ cursor: pointer;
   transform: scaleX(1);
   transform-origin: bottom left;
 }
-  

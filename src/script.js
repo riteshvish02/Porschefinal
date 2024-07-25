@@ -5,7 +5,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 Shery.mouseFollower();
-
+Shery.makeMagnet(".magnet-target" /* Element to target.*/, {
+    //Parameters are optional.
+    ease: "cubic-bezier(0.23, 1, 0.320, 1)",
+    duration: 1,
+  });
 function inet(){
     gsap.registerPlugin(ScrollTrigger);
     const locoScroll = new LocomotiveScroll({
@@ -27,8 +31,9 @@ function inet(){
     }
     
     inet();
-
-
+    const totalItems = 12;
+let loadingBarElement = document.querySelector("#progress")
+let loadingBarElementh2 = document.querySelector("#dib h2")
     const loadingManager = new THREE.LoadingManager(
        // Loaded
     () =>
@@ -47,31 +52,13 @@ function inet(){
               .to('#loading', {
                  display: 'none',
                  delay:0.2,
-                },"var")
+                },"var2")
+                .to('#selector,#nav', {
+                    display: 'flex',
+                    delay:0.5,
+                   },"var2")
+              
              
-                .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
-                  transform: "translateY(0)",
-                  duration:1,
-                  ease: "power1.out",
-                },"var2")
-                .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
-                  transform: "translateY(0)",
-                  delay:0.2,
-                  duration:1,
-                  ease: "power1.out",
-                },"var2")
-                .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
-                  transform: "translateY(0)",
-                  delay:0.3,
-                  duration:1,
-                  ease: "power1.out",
-                },"var2")
-                .to("#navcenter img:nth-child(4)",{
-                  transform: "translateY(0)",
-                  delay:0.4,
-                  duration:1,
-                  ease: "power1.out",
-                },"var2")
               // Animate overlay
   
           }, 1000)
@@ -82,14 +69,13 @@ function inet(){
       // Progress
       (itemUrl, itemsLoaded, itemsTotal) =>
       {
-  
-          // Calculate the progress and update the loadingBarElement
-          // const progressRatio = itemsLoaded / totalItems;
-          // const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
-          // // console.log(progressRatio, progressPercentage.toFixed());
-      
-          // loadingBarElement.style.transform = `scaleX(${progressRatio})`;
-          //  loadingBarElementh2.textContent = progressPercentage + "%"
+       console.log(itemsLoaded,itemsTotal);
+        const progressRatio = itemsLoaded / totalItems;
+        const progressPercentage =( (itemsLoaded / totalItems) * 100).toFixed();
+        console.log(progressRatio, progressPercentage);
+    
+        loadingBarElement.style.width = `${progressPercentage}%`;
+         loadingBarElementh2.textContent = progressPercentage + "%"
       }
   )
 // Texture loading
@@ -207,12 +193,39 @@ let tyreMeshes = [];
 gltfLoader.load('/models/scene.glb', (gltf) => {
   
   model = gltf.scene
-    // console.log(model);
+   
     model.scale.set(25, 25, 25);
     model.position.set(0, 0, 0);
     model.rotation.y = Math.PI / 2;
     scene.add(model);
     adjustModelForScreen()
+    if(model){
+        var tl4 = gsap.timeline()
+        tl4
+        .to("#navcenter img:nth-child(1),#navcenter img:nth-child(7)",{
+            transform: "translateY(0)",
+            duration:1,
+            ease: "power1.out",
+          },"var2")
+          .to("#navcenter img:nth-child(2),#navcenter img:nth-child(6)",{
+            transform: "translateY(0)",
+            delay:0.2,
+            duration:1,
+            ease: "power1.out",
+          },"var2")
+          .to("#navcenter img:nth-child(3),#navcenter img:nth-child(5)",{
+            transform: "translateY(0)",
+            delay:0.3,
+            duration:1,
+            ease: "power1.out",
+          },"var2")
+          .to("#navcenter img:nth-child(4)",{
+            transform: "translateY(0)",
+            delay:0.4,
+            duration:1,
+            ease: "power1.out",
+          },"var2")
+    }
 //     // gui.add(model.rotation, 'y').min(-Math.PI).max(Math.PI).step(0.001).name('Rotation');
 //     // gui.add(model.position, 'x').min(0).max(100).step(0.001).name('Rotation');
 //     // gui.add(model.position, 'y').min(0).max(100).step(0.001).name('Rotation');
@@ -711,7 +724,6 @@ document.querySelectorAll("#page3 #left #child").forEach((child) => {
         }
     }
     
-    canva();
     
     
     function page1() {
@@ -746,6 +758,8 @@ document.querySelectorAll("#page3 #left #child").forEach((child) => {
     const isMobile = window.innerWidth <= 768;
 if(!isMobile) {
     page1()
+    canva();
+
 }
 
 const openBtn = document.querySelector('.open-btn');
@@ -893,58 +907,28 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.menu-con-1 h3[data-target="models"]').classList.add('active');
 });
 
-function menuu(){
-    var flag = 0;
-    var ans = document.querySelectorAll("#menn")
-    ans.forEach((elem)=>{
-        elem.addEventListener("click",function(){
-            if(flag === 0){
-            var tl = gsap.timeline()
-            tl
-            .to(".line",{
-                position:"absolute",
-                duration:1
-            })
-            .to("#l1",{
-                position:"relative",
-                transform:" rotate(45deg)  translateY(0px) translateX(4px)",
-                marginLeft: "-5px"
-            },"a")
-            .to("#l3",{
-                position:"relative",
-                transform:" rotate(-45deg)  translateX(2px)",
-                marginLeft: "-5px"
-            },"a")
-            .to("#l2",{
-                opacity:0
-            },"a")
-           
-            flag =1 
+function rollingtext(){
+    
+    let elements = document.querySelectorAll(".rolling-text");
+    elements.forEach((element) => {
+        let innerText = element.innerText;
+        element.innerHTML = "";
+        let textContainer= document.createElement("div");
+        textContainer.classList.add("block");
+        for(let letter of innerText){
+            let span = document.createElement("span");
+            span. innerText = letter.trim() === "" ? "\xa0": letter;
+            span.classList.add("letter");
+            textContainer.appendChild(span);
         }
-        else{
-            var tl = gsap.timeline()
+        element.appendChild(textContainer);
+        element.appendChild(textContainer.cloneNode(true));
+    });
+    elements.forEach((element) => {
+        element.addEventListener("mouseover", () => {
+            element.classList.remove("play");
+        });
+    });
+    }
     
-            tl
-            .to("#l1",{
-                position:"relative",
-                transform:" rotate(0deg)  translateY(0px) translateX(0px)",
-                marginLeft: "0px"
-            },"a")
-            .to("#l3",{
-                position:"relative",
-                transform:" rotate(0deg)  translateX(0px)",
-                marginLeft: "0px"
-            },"a")
-            .to("#l2",{
-                opacity:1,
-                position:"relative"
-            },"a")
-           
-            flag = 0
-        }
-    
-        })
-    })
-    
-}
-menuu()
+    rollingtext();
